@@ -11,7 +11,6 @@ from collections import defaultdict
 import os
 import sys
 
-# afel
 from cache import memoized
 
 class Project(object):
