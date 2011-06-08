@@ -9,6 +9,9 @@ import cookielib
 import ConfigParser
 from collections import defaultdict
 
+# afel
+from cache import memoized
+
 class Project(object):
     def __init__(self, names, values):
         # Use an internal dict so we're immutable
@@ -136,6 +139,7 @@ class CurrentTime(object):
         _,m,y=[int(x.lstrip("0")) for x in start.split(".")]
         return datetime.date(y,m,1)
 
+    @memoized
     def get_projects(self):
         date = self.current_month().strftime("%d.%m.%Y")
         data = urllib.urlencode({
@@ -163,6 +167,7 @@ class CurrentTime(object):
 
         return dict([(str(p), p) for p in projects])
 
+    @memoized
     def get_hours(self, project_map={}):
         result = []
         rows = self._page.cssselect("input[name=activityrow]")[0].value
@@ -189,6 +194,7 @@ class CurrentTime(object):
                     result.append((date, project, hours, comment))
         return result
 
+    
     def days_in_current_month(self):
         date = self.current_month()
         _, num_days = calendar.monthrange(date.year, date.month)
