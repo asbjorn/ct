@@ -8,6 +8,8 @@ import urllib2
 import cookielib
 import ConfigParser
 from collections import defaultdict
+import os
+import sys
 
 # afel
 from cache import memoized
@@ -53,6 +55,11 @@ class CurrentTime(object):
 
     def login(self):
         browser = self._create_browser()
+        if not os.path.exists('config.ini'):
+            print("Missing config.ini file.")
+            print("Copy 'config.ini.sample' to 'config.ini', and adjust the arguments.")
+            sys.exit(1)
+
         config = ConfigParser.ConfigParser()
         config.read('config.ini')
     
